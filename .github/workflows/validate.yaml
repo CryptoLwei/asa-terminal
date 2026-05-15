@@ -1,0 +1,14 @@
+name: Pull Request validation
+
+on: [pull_request]
+
+
+jobs:
+  asa-terminal-contracts-ci:
+    name: Run asa-terminal-contracts validation
+    uses: ./.github/workflows/asa-terminal-contracts-ci.yaml
+
+  asa-terminal-frontend-ci:
+    name: Run asa-terminal-frontend validation
+    uses: ./.github/workflows/asa-terminal-frontend-ci.yaml
+

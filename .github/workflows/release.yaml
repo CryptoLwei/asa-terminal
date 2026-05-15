@@ -1,0 +1,38 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - 'docs/**'
+      - '**.md'
+      - '.vscode/**'
+      - '.idea/**'
+
+permissions:
+  contents: read
+  packages: read
+
+jobs:
+  asa-terminal-contracts-validate:
+    name: Run asa-terminal-contracts release
+    secrets: inherit
+    uses: ./.github/workflows/asa-terminal-contracts-ci.yaml
+
+  asa-terminal-contracts-release:
+    name: Run asa-terminal-contracts release
+    secrets: inherit
+    uses: ./.github/workflows/asa-terminal-contracts-cd.yaml
+    needs: asa-terminal-contracts-validate
+
+  asa-terminal-frontend-validate:
+    name: Run asa-terminal-frontend release
+    secrets: inherit
+    uses: ./.github/workflows/asa-terminal-frontend-ci.yaml
+
+  asa-terminal-frontend-release:
+    name: Run asa-terminal-frontend release
+    secrets: inherit
+    uses: ./.github/workflows/asa-terminal-frontend-cd.yaml
+    needs: asa-terminal-frontend-validate
