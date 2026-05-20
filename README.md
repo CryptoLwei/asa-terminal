@@ -4,7 +4,7 @@ A clean, beautiful **no-code terminal** for minting **Fungible Tokens** and **NF
 
 Built with **AlgoKit + Puya** — designed to be simple enough for beginners yet powerful for creators.
 
-![ASA Terminal](https://github.com/CryptoLwei/asa-terminal/blob/main/public/preview.png)
+![ASA Terminal](https://github.com/CryptoLwei/asa-terminal/blob/main/preview.png)
 
 ## ✨ Features
 
