@@ -26,31 +26,32 @@ if (import.meta.env.VITE_ALGOD_NETWORK === 'localnet') {
   ]
 }
 
-export default function App() {
-  const algodConfig = getAlgodConfigFromViteEnvironment()
+// ✅ Moved OUTSIDE App component — prevents recreation on every render
+const algodConfig = getAlgodConfigFromViteEnvironment()
 
-  const walletManager = new WalletManager({
-    wallets: supportedWallets,
-    defaultNetwork: algodConfig.network,
-    networks: {
-      [algodConfig.network]: {
-        algod: {
-          baseServer: algodConfig.server,
-          port: algodConfig.port,
-          token: String(algodConfig.token),
-        },
+const walletManager = new WalletManager({
+  wallets: supportedWallets,
+  defaultNetwork: algodConfig.network,
+  networks: {
+    [algodConfig.network]: {
+      algod: {
+        baseServer: algodConfig.server,
+        port: algodConfig.port,
+        token: String(algodConfig.token),
       },
     },
-    options: {
-      resetNetwork: true,
-    },
-  })
+  },
+  options: {
+    resetNetwork: true,
+  },
+})
 
+export default function App() {
   return (
-    <SnackbarProvider maxSnack={3}>
-      <WalletProvider manager={walletManager}>
+    <WalletProvider manager={walletManager}>
+      <SnackbarProvider>
         <Home />
-      </WalletProvider>
-    </SnackbarProvider>
+      </SnackbarProvider>
+    </WalletProvider>
   )
 }

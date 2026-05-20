@@ -1,0 +1,11 @@
+{
+  "name": "ProtoToken",
+  "unitName": "PRTO",
+  "decimals": 6,
+  "image": "https://gateway.pinata.cloud/ipfs/bafkreihfwrwccv6alv7rnx7tqbvpjmtjz7oqjsopqctsaclprsjdxes53e#arc3",
+  "image_mimetype": "image/jpeg",
+  "properties": {
+    "creator": "3QGVUVQGHVZZYUNFGS4XDTRFMCMY3LIXQO4TRWXFE7YDML3D2NDSK6HPHQ",
+    "type": "Fungible"
+  }
+}

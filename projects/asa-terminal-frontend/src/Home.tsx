@@ -1,74 +1,66 @@
-// src/components/Home.tsx
+// src/Home.tsx
 import { useWallet } from '@txnlab/use-wallet-react'
 import React, { useState } from 'react'
 import ConnectWallet from './components/ConnectWallet'
-import Transact from './components/Transact'
-import AppCalls from './components/AppCalls'
+import TokenCreator from './components/TokenCreator'
 
-interface HomeProps {}
-
-const Home: React.FC<HomeProps> = () => {
-  const [openWalletModal, setOpenWalletModal] = useState<boolean>(false)
-  const [openDemoModal, setOpenDemoModal] = useState<boolean>(false)
-  const [appCallsDemoModal, setAppCallsDemoModal] = useState<boolean>(false)
+const Home: React.FC = () => {
+  const [openWalletModal, setOpenWalletModal] = useState(false)
   const { activeAddress } = useWallet()
 
-  const toggleWalletModal = () => {
-    setOpenWalletModal(!openWalletModal)
-  }
-
-  const toggleDemoModal = () => {
-    setOpenDemoModal(!openDemoModal)
-  }
-
-  const toggleAppCallsModal = () => {
-    setAppCallsDemoModal(!appCallsDemoModal)
-  }
+  const toggleWalletModal = () => setOpenWalletModal(!openWalletModal)
 
   return (
-    <div className="hero min-h-screen bg-teal-400">
-      <div className="hero-content text-center rounded-lg p-6 max-w-md bg-white mx-auto">
-        <div className="max-w-md">
-          <h1 className="text-4xl">
-            Welcome to <div className="font-bold">AlgoKit 🙂</div>
-          </h1>
-          <p className="py-6">
-            This starter has been generated using official AlgoKit React template. Refer to the resource below for next steps.
-          </p>
+    <div className="min-h-screen bg-black text-white font-mono">
+      {/* Header - Sticky */}
+      <header className="sticky top-0 z-50 border-b border-zinc-800 px-6 py-4 flex items-center justify-between bg-black">
 
-          <div className="grid">
-            <a
-              data-test-id="getting-started"
-              className="btn btn-primary m-2"
-              target="_blank"
-              href="https://github.com/algorandfoundation/algokit-cli"
-            >
-              Getting started
-            </a>
-
-            <div className="divider" />
-            <button data-test-id="connect-wallet" className="btn m-2" onClick={toggleWalletModal}>
-              Wallet Connection
-            </button>
-
-            {activeAddress && (
-              <button data-test-id="transactions-demo" className="btn m-2" onClick={toggleDemoModal}>
-                Transactions Demo
-              </button>
-            )}
-
-            {activeAddress && (
-              <button data-test-id="appcalls-demo" className="btn m-2" onClick={toggleAppCallsModal}>
-                Contract Interactions Demo
-              </button>
-            )}
-          </div>
-
-          <ConnectWallet openModal={openWalletModal} closeModal={toggleWalletModal} />
-          <Transact openModal={openDemoModal} setModalState={setOpenDemoModal} />
-          <AppCalls openModal={appCallsDemoModal} setModalState={setAppCallsDemoModal} />
+        {/* Left: Logo */}
+        <div className="flex items-center gap-3">
+          <span className="text-emerald-400 text-lg font-bold tracking-widest">ASA_TERMINAL</span>
+          <span className="text-zinc-600 text-xs">v1.1 // TESTNET</span>
         </div>
-      </div>
+
+        {/* Center: New Mint Button */}
+        <div className="absolute left-1/2 -translate-x-1/2">
+          <button
+            onClick={() => {
+              window.dispatchEvent(new CustomEvent('reset-mint-form'))
+            }}
+            className="text-xs border border-emerald-400 text-emerald-400 hover:bg-emerald-400 hover:text-black px-4 py-2 transition-all duration-200 font-medium"
+          >
+            [ NEW MINT ]
+          </button>
+        </div>
+
+        {/* Right: Wallet */}
+        <button
+          onClick={toggleWalletModal}
+          className="text-xs border border-zinc-700 hover:border-emerald-400 hover:text-emerald-400 px-4 py-2 transition-colors duration-200"
+        >
+          {activeAddress ? `${activeAddress.slice(0, 6)}...${activeAddress.slice(-4)}` : '[ CONNECT WALLET ]'}
+        </button>
+      </header>
+
+      {/* Main */}
+      <main className="max-w-2xl mx-auto px-6 py-12">
+        {!activeAddress ? (
+          <div className="text-center py-24">
+            <p className="text-zinc-500 text-sm mb-2">// wallet not connected</p>
+            <p className="text-zinc-400 text-xs mb-8">Connect your wallet to access the token minting terminal.</p>
+            <button
+              onClick={toggleWalletModal}
+              className="border border-emerald-400 text-emerald-400 hover:bg-emerald-400 hover:text-black px-8 py-3 text-sm transition-all duration-200"
+            >
+              CONNECT WALLET
+            </button>
+          </div>
+        ) : (
+          <TokenCreator />
+        )}
+      </main>
+
+      <ConnectWallet openModal={openWalletModal} closeModal={toggleWalletModal} />
     </div>
   )
 }
